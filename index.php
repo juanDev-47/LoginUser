@@ -1,3 +1,40 @@
+<?php	
+	include ("conexion.php");
+?>
+
+if(isset($_POST["registrar"]) ){
+	$nombre = mysqli_real_escape_string($conexion,$_POST['nombre']);
+	$correo = mysqli_real_escape_string($conexion,$_POST['correo']);
+	$usuario = mysqli_real_escape_string($conexion,$_POST['user']);
+	$password = mysqli_real_escape_string($conexion,$_POST['pass']);
+	$password_encriptada = sha1($password);
+	$sqluser = "SELECT idusuarios FROM usuarios WHERE usuario = '$usuario'";
+
+	$resultadouser = $conexion->query($sqluser);
+	$filas = $resultadouser->num_rows;
+	if($filas > 0){
+		echo "<script>
+			// alert('El usuario ya existe');
+			window.location = 'index.php';
+		</script>" 
+	}else {
+		$sqlusuario = "INSERT INTO usuarios(Nombre,Correo,Usuario,Password) VALUES ('$nombre','$correo','$usuario','$password_encriptada')";
+
+		$resultadousuario = $conexion->query($sqlusuario);
+		if($resultadousuario > 0){
+			echo "<script>
+			// alert('registro exitoso');
+			window.location = 'index.php';
+		</script>"
+		}else{
+			echo "<script>
+			// alert('Error al registrarse');
+			window.location = 'index.php';
+		</script>"
+		}
+	}
+}
+
 <!DOCTYPE html>
 <html lang="en">
 	<head>
