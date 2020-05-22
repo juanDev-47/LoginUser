@@ -8,7 +8,8 @@ if(isset($_POST["registrar"]) ){
 	$usuario = mysqli_real_escape_string($conexion,$_POST['user']);
 	$password = mysqli_real_escape_string($conexion,$_POST['pass']);
 	$password_encriptada = sha1($password);
-	$sqluser = "SELECT idusuarios FROM usuarios WHERE usuario = '$usuario'";
+	$sqluser = "SELECT idusuarios FROM usuarios
+					 WHERE Usuario = '$usuario'";
 
 	$resultadouser = $conexion->query($sqluser);
 	$filas = $resultadouser->num_rows;
@@ -18,7 +19,8 @@ if(isset($_POST["registrar"]) ){
 			window.location = 'index.php';
 		</script>" 
 	}else {
-		$sqlusuario = "INSERT INTO usuarios(Nombre,Correo,Usuario,Password) VALUES ('$nombre','$correo','$usuario','$password_encriptada')";
+		$sqlusuario = "INSERT INTO usuarios(Nombre,Correo,Usuario,Password) 
+				VALUES ('$nombre','$correo','$usuario','$password_encriptada')";
 
 		$resultadousuario = $conexion->query($sqlusuario);
 		if($resultadousuario > 0){
